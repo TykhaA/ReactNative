@@ -7,23 +7,21 @@ import {
   Platform,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  Pressable,
+  Keyboard,
 } from "react-native";
 
 import { useEffect, useState } from "react";
 
-import IconPlus from "../../icons/IconPlus";
 import { colors } from "../../styles/global";
 import Input from "../components/Input";
 import Button from "../components/Button";
 
-const RegistrationScreen = () => {
-  const [login, setLogin] = useState("");
+const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
-  const handleLoginChange = (value) => {
-    setLogin(value);
-  };
+
   const handleEmailChange = (value) => {
     setEmail(value);
   };
@@ -33,15 +31,6 @@ const RegistrationScreen = () => {
   const showPassword = () => {
     setIsPasswordVisible((prev) => !prev);
   };
-
-  const Login = () => {
-    console.log("login");
-  };
-  const handleSubmit = () => {
-    console.log("Login:", login);
-    console.log("Email:", email);
-    console.log("Password:", password);
-  };
   const showButton = (
     <TouchableOpacity onPress={showPassword}>
       <Text style={[styles.baseTextInput, styles.passwordButtonText]}>
@@ -50,70 +39,68 @@ const RegistrationScreen = () => {
     </TouchableOpacity>
   );
 
+  const onSignUp = () => {
+    console.log("signUp");
+  };
+  const handleSubmit = () => {
+    console.log("Email:", email);
+    console.log("Password:", password);
+  };
+
   return (
-    <ImageBackground
-      source={require("../../assets/bg.png")}
-      style={styles.background}
-    >
-      <KeyboardAvoidingView
-        style={styles.formContainer}
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
+    <Pressable style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
+      <ImageBackground
+        source={require("../../assets/bg.png")}
+        style={styles.background}
       >
-        <View style={styles.wrapAvatar}>
-          <View style={styles.addPhoto}>
-            <IconPlus />
-          </View>
-        </View>
-        <Text style={styles.title}>Реєстрація</Text>
-        <View
-          style={[
-            styles.innerContainer,
-            styles.inputContainer,
-            styles.formWrap,
-          ]}
+        <KeyboardAvoidingView
+          style={styles.formContainer}
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
         >
-          <Input
-            value={login}
-            autofocus={true}
-            placeholder="Логін"
-            onTextChange={handleLoginChange}
-          />
-          <Input
-            value={email}
-            autofocus={true}
-            placeholder="Адреса електронної пошти"
-            onTextChange={handleEmailChange}
-          />
-          <Input
-            value={password}
-            autofocus={true}
-            placeholder="Пароль"
-            rightButton={showButton}
-            outerStyles={styles.passwordButton}
-            onTextChange={handlePasswordChange}
-            secureTextEntry={isPasswordVisible}
-          />
-        </View>
-        <View style={[styles.innerContainer, styles.buttonContainer]}>
-          <Button onPress={handleSubmit} style={styles.buttonTransparent}>
-            <Text style={[styles.baseTextInput, styles.loginButtonText]}>
-              Зареєстуватися
-            </Text>
-          </Button>
-          <View style={styles.signUpContainer}>
-            <TouchableWithoutFeedback onPress={Login}>
-              <Text style={[styles.signUpText, styles.passwordButtonText]}>
-                {" "}
-                Вже є акаунт? Увійти
-              </Text>
-            </TouchableWithoutFeedback>
+          <Text style={styles.title}>Увійти</Text>
+          <View
+            style={[
+              (styles.innerContainer, styles.inputContainer, styles.formWrap),
+            ]}
+          >
+            <Input
+              value={email}
+              autofocus={true}
+              placeholder="Адреса електронної пошти"
+              onTextChange={handleEmailChange}
+            />
+            <Input
+              value={password}
+              autofocus={true}
+              placeholder="Пароль"
+              rightButton={showButton}
+              outerStyles={styles.passwordButton}
+              onTextChange={handlePasswordChange}
+              secureTextEntry={isPasswordVisible}
+            />
           </View>
-        </View>
-      </KeyboardAvoidingView>
-    </ImageBackground>
+          <View style={[styles.innerContainer, styles.buttonContainer]}>
+            <Button onPress={handleSubmit}>
+              <Text style={[styles.baseTextInput, styles.loginButtonText]}>
+                Увійти
+              </Text>
+            </Button>
+            <View style={styles.signUpContainer}>
+              <Text style={[styles.baseText, styles.passwordButtonText]}>
+                Немає акаунту?
+                <TouchableWithoutFeedback onPress={onSignUp}>
+                  <Text style={styles.signUpText}> Зареєструватися</Text>
+                </TouchableWithoutFeedback>
+              </Text>
+            </View>
+          </View>
+        </KeyboardAvoidingView>
+      </ImageBackground>
+    </Pressable>
   );
 };
-export default RegistrationScreen;
+
+export default LoginScreen;
 
 const styles = StyleSheet.create({
   background: {
@@ -140,7 +127,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     lineHeight: 36,
     textAlign: "center",
-    marginTop: 92,
+    marginTop: 32,
   },
   wrapAvatar: {
     width: 120,
@@ -177,11 +164,13 @@ const styles = StyleSheet.create({
   },
   passwordButtonText: {
     color: colors.blue,
+    paddingHorizontal: 10,
   },
   passwordButton: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    width: "100%",
   },
   loginButtonText: {
     color: colors.white,
@@ -195,13 +184,13 @@ const styles = StyleSheet.create({
     marginTop: 43,
     gap: 16,
   },
-  buttonTransparent: {
-    backgroundColor: "transparent",
-  },
   signUpContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     marginTop: 16,
+  },
+  signUpText: {
+    textDecorationLine: "underline",
   },
 });

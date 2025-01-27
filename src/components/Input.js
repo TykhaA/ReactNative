@@ -24,7 +24,7 @@ const Input = ({
         autoCapitalize="none"
       />
 
-      {rightButton}
+      {rightButton && <View style={styles.rightButton}>{rightButton}</View>}
     </View>
   );
 };
@@ -39,12 +39,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border_gray,
     backgroundColor: colors.light_gray,
-    position: "relative",
+    width: "100%",
   },
   baseTextInput: {
     fontWeight: "400",
     fontSize: 16,
     lineHeight: 18,
     color: colors.blue,
+    flex: 1,
+  },
+  rightButton: {
+    minWidth: 80,
   },
 });

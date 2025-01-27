@@ -2,16 +2,9 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 
 import { colors } from "../../styles/global";
 
-const Button = ({ children, onPress, buttonStyle, buttonBg = true }) => {
+const Button = ({ children, onPress, buttonStyle }) => {
   return (
-    <TouchableOpacity
-      style={[
-        style.button,
-        buttonStyle,
-        buttonBg ? style.buttonColor : style.buttonTransparent,
-      ]}
-      onPress={onPress}
-    >
+    <TouchableOpacity style={[style.button, buttonStyle]} onPress={onPress}>
       {children}
     </TouchableOpacity>
   );
@@ -23,11 +16,6 @@ const style = StyleSheet.create({
     borderRadius: 100,
     paddingVertical: 16,
     paddingHorizontal: 32,
-  },
-  buttonTransparent: {
-    backgroundColor: "transparent",
-  },
-  buttonColor: {
     backgroundColor: colors.orange,
   },
 });
