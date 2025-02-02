@@ -24,7 +24,12 @@ const StackNavigator = () => {
           headerRight: () => null,
           headerLeft: () => (
             <TouchableOpacity
-              onPress={() => navigation.goBack()}
+              onPress={() =>
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: "Post" }],
+                })
+              }
               style={{ marginLeft: 10 }}
             >
               <IconArrowBack></IconArrowBack>
@@ -39,7 +44,12 @@ const StackNavigator = () => {
           headerTitle: "Коментарі",
           headerLeft: () => (
             <TouchableOpacity
-              onPress={() => navigation.goBack()}
+              onPress={() =>
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: "Post" }],
+                })
+              }
               style={{ marginLeft: 10 }}
             >
               <IconArrowBack></IconArrowBack>
