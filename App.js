@@ -1,7 +1,10 @@
 import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import { useFonts } from "expo-font";
-import RegistrationScreen from "./src/screens/RegistrationScreen";
-import LoginScreen from "./src/screens/LoginScreen";
+import AuthNavigator from "./src/navigation/AuthNavigator";
+import BottomTabNavigation from "./src/navigation/BottomTabNavigation";
+
+import { NavigationContainer } from "@react-navigation/native";
+import "react-native-gesture-handler";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -10,6 +13,8 @@ export default function App() {
     "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
     "Roboto-Light": require("./assets/fonts/Roboto-Light.ttf"),
   });
+  const isLoggedIn = true;
+
   if (!fontsLoaded) {
     return (
       <View style={styles.container}>
@@ -18,8 +23,11 @@ export default function App() {
     );
   }
 
-  return <RegistrationScreen />;
-  // return <LoginScreen />;
+  return (
+    <NavigationContainer>
+      {isLoggedIn ? <BottomTabNavigation /> : <AuthNavigator />}
+    </NavigationContainer>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -27,5 +35,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    fontFamily: "Roboto-Regular",
   },
 });

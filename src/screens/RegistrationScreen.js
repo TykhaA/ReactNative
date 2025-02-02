@@ -16,39 +16,44 @@ import { colors } from "../../styles/global";
 import Input from "../components/Input";
 import Button from "../components/Button";
 
-const RegistrationScreen = () => {
-  const [login, setLogin] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isPasswordVisible, setIsPasswordVisible] = useState(true);
-  const handleLoginChange = (value) => {
-    setLogin(value);
-  };
-  const handleEmailChange = (value) => {
-    setEmail(value);
-  };
-  const handlePasswordChange = (value) => {
-    setPassword(value);
-  };
-  const showPassword = () => {
-    setIsPasswordVisible((prev) => !prev);
+const RegistrationScreen = ({ navigation, route }) => {
+  const [formData, setFormData] = useState({
+    login: "",
+    email: "",
+    password: "",
+    isPasswordVisible: true,
+  });
+
+  const handleChange = (field, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
   };
 
-  const Login = () => {
-    console.log("login");
+  const togglePasswordVisibility = () => {
+    setFormData((prev) => ({
+      ...prev,
+      isPasswordVisible: !prev.isPasswordVisible,
+    }));
   };
+
   const handleSubmit = () => {
-    console.log("Login:", login);
-    console.log("Email:", email);
-    console.log("Password:", password);
+    navigation.navigate("Home");
+    console.log("Login:", formData.login);
+    console.log("Email:", formData.email);
+    console.log("Password:", formData.password);
   };
   const showButton = (
-    <TouchableOpacity onPress={showPassword}>
+    <TouchableOpacity onPress={togglePasswordVisibility}>
       <Text style={[styles.baseTextInput, styles.passwordButtonText]}>
         Показати
       </Text>
     </TouchableOpacity>
   );
+  const onRegistration = () => {
+    navigation.navigate("Login");
+  };
 
   return (
     <ImageBackground
@@ -73,25 +78,25 @@ const RegistrationScreen = () => {
           ]}
         >
           <Input
-            value={login}
+            value={formData.login}
             autofocus={true}
             placeholder="Логін"
-            onTextChange={handleLoginChange}
+            onTextChange={(value) => handleChange("login", value)}
           />
           <Input
-            value={email}
+            value={formData.email}
             autofocus={true}
             placeholder="Адреса електронної пошти"
-            onTextChange={handleEmailChange}
+            onTextChange={(value) => handleChange("email", value)}
           />
           <Input
-            value={password}
+            value={formData.password}
             autofocus={true}
             placeholder="Пароль"
             rightButton={showButton}
             outerStyles={styles.passwordButton}
-            onTextChange={handlePasswordChange}
-            secureTextEntry={isPasswordVisible}
+            onTextChange={(value) => handleChange("password", value)}
+            secureTextEntry={formData.isPasswordVisible}
           />
         </View>
         <View style={[styles.innerContainer, styles.buttonContainer]}>
@@ -101,10 +106,13 @@ const RegistrationScreen = () => {
             </Text>
           </Button>
           <View style={styles.signUpContainer}>
-            <TouchableWithoutFeedback onPress={Login}>
+            <TouchableWithoutFeedback onPress={formData.Login}>
               <Text style={[styles.signUpText, styles.passwordButtonText]}>
                 {" "}
-                Вже є акаунт? Увійти
+                Вже є акаунт?
+                <TouchableWithoutFeedback onPress={onRegistration}>
+                  <Text> Увійти</Text>
+                </TouchableWithoutFeedback>
               </Text>
             </TouchableWithoutFeedback>
           </View>

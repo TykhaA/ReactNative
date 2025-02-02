@@ -17,7 +17,7 @@ import { colors } from "../../styles/global";
 import Input from "../components/Input";
 import Button from "../components/Button";
 
-const LoginScreen = () => {
+const LoginScreen = ({ route, navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
@@ -40,9 +40,10 @@ const LoginScreen = () => {
   );
 
   const onSignUp = () => {
-    console.log("signUp");
+    navigation.navigate("Registration");
   };
   const handleSubmit = () => {
+    navigation.navigate("Home");
     console.log("Email:", email);
     console.log("Password:", password);
   };
