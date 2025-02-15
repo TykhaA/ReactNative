@@ -34,7 +34,14 @@ const Card = () => {
           <Text style={styles.count}>{String(0)}</Text>
         </View>
         <View style={{ flexDirection: "row", gap: 6, alignItems: "center" }}>
-          <TouchableOpacity onPress={() => navigation.replace("MapScreen")}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.replace("MapScreen", {
+                latitude: 37.78825,
+                longitude: -122.4324,
+              })
+            }
+          >
             <IconLocal></IconLocal>
           </TouchableOpacity>
           <Text style={styles.local}>Ivano-Frankivs'k Region, Ukraine</Text>

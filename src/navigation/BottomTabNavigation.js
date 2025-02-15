@@ -4,7 +4,7 @@ import { colors } from "../../styles/global";
 
 import ProfileScreen from "../screens/ProfileScreen";
 import StackNavigator from "../navigation/StackNavigator";
-import CreatePostsScreen from "../screens/CreatePostsScreen";
+import CreatePostsNavigator from "../navigation/CreatePostsNavigator";
 import LogoutButton from "../components/LogoutButton";
 
 import IconProfile from "../../icons/IconProfile";
@@ -60,8 +60,9 @@ const BottomTabNavigation = () => {
       />
       <Tab.Screen
         name="CreatePosts"
-        component={CreatePostsScreen}
+        component={CreatePostsNavigator}
         options={({ navigation }) => ({
+          headerShown: false,
           title: "Створити публікацію",
           headerRight: () => null,
           headerLeft: () => (
