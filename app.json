@@ -14,6 +14,19 @@
     },
     "ios": {
       "supportsTablet": true,
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "location",
+          "fetch",
+          "remote-notification"
+        ],
+        "NSLocationWhenInUseUsageDescription": "This app requires access to your location when open.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app requires access to your location even when closed.",
+        "NSLocationAlwaysUsageDescription": "This app requires access to your location when open.",
+        "NSCameraUsageDescription": "This app requires access to your camera when open.",
+        "NSMediaLibraryUsageDescription": "This app requires access to your camera when open.",
+        "deploymentTarget": "14"
+      },
       "config": {
         "googleMapsApiKey": "AIzaSyAlh2dhlnJoA0ge-G-3to3p_ww8nYyKT3s"
       }
@@ -22,6 +35,13 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "config": {
+        "googleMapsApiKey": "AIzaSyAlh2dhlnJoA0ge-G-3to3p_ww8nYyKT3s"
       }
     },
     "web": {
@@ -37,6 +57,11 @@
           "recordAudioAndroid": true
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "718772a5-c767-4547-8b3c-08ba5e6a899c"
+      }
+    }
   }
 }
