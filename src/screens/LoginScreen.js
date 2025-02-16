@@ -17,10 +17,15 @@ import { colors } from "../../styles/global";
 import Input from "../components/Input";
 import Button from "../components/Button";
 
+import { loginDB } from "../utils/auth";
+import { useDispatch } from "react-redux";
+
 const LoginScreen = ({ route, navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
+
+  const dispatch = useDispatch();
 
   const handleEmailChange = (value) => {
     setEmail(value);
@@ -42,10 +47,13 @@ const LoginScreen = ({ route, navigation }) => {
   const onSignUp = () => {
     navigation.navigate("Registration");
   };
-  const handleSubmit = () => {
-    navigation.navigate("Home");
-    console.log("Email:", email);
-    console.log("Password:", password);
+  const handleSubmit = async () => {
+    try {
+      await loginDB({ email, password }, dispatch);
+    } catch (err) {
+      Alert.alert("err");
+      console.error("Login error:", err);
+    }
   };
 
   return (

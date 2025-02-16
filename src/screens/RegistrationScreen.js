@@ -16,6 +16,8 @@ import { colors } from "../../styles/global";
 import Input from "../components/Input";
 import Button from "../components/Button";
 
+import { registerDB } from "../utils/auth";
+
 const RegistrationScreen = ({ navigation, route }) => {
   const [formData, setFormData] = useState({
     login: "",
@@ -39,10 +41,14 @@ const RegistrationScreen = ({ navigation, route }) => {
   };
 
   const handleSubmit = () => {
-    navigation.navigate("Home");
-    console.log("Login:", formData.login);
-    console.log("Email:", formData.email);
-    console.log("Password:", formData.password);
+    if (
+      !formData.login.length ||
+      !formData.email.length ||
+      !formData.password.length
+    ) {
+      return;
+    }
+    registerDB(formData.email, formData.password, formData.login);
   };
   const showButton = (
     <TouchableOpacity onPress={togglePasswordVisibility}>

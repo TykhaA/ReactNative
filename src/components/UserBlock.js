@@ -1,8 +1,9 @@
 import { StyleSheet, View, Image, Text } from "react-native";
-
 import { colors } from "../../styles/global";
 
-const UserBlock = () => {
+const UserBlock = ({
+  user = { name: "No name", email: "email@example.com" },
+}) => {
   return (
     <View style={styles.container}>
       <Image
@@ -10,12 +11,13 @@ const UserBlock = () => {
         source={require("../../assets/user.png")}
       />
       <View style={styles.info}>
-        <Text style={styles.name}>Natali Romanova</Text>
-        <Text style={styles.email}>email@example.com</Text>
+        <Text style={styles.name}>{user.name}</Text>
+        <Text style={styles.email}>{user.email}</Text>
       </View>
     </View>
   );
 };
+
 export default UserBlock;
 
 const styles = StyleSheet.create({

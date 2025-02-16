@@ -1,6 +1,8 @@
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { colors } from "../../styles/global";
+import { useDispatch } from "react-redux";
+import { clearUserInfo } from "../redux/reducers/userSlice";
 
 import ProfileScreen from "../screens/ProfileScreen";
 import StackNavigator from "../navigation/StackNavigator";
@@ -12,9 +14,18 @@ import IconPlus from "../../icons/IconPlus";
 import IconGrid from "../../icons/IconGrid";
 import IconArrowBack from "../../icons/IconArrowBack";
 
+import { logoutDB } from "../utils/auth";
+
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigation = () => {
+  const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    dispatch(clearUserInfo());
+    await logoutDB(dispatch);
+  };
+
   return (
     <Tab.Navigator
       initialRouteName="Post"
@@ -33,11 +44,8 @@ const BottomTabNavigation = () => {
           fontWeight: "bold",
         },
         headerRight: () => (
-          <TouchableOpacity
-            onPress={() => console.log("Log out")}
-            style={{ marginLeft: 10 }}
-          >
-            <LogoutButton />
+          <TouchableOpacity style={{ marginLeft: 10 }}>
+            <LogoutButton onPress={handleLogout} />
           </TouchableOpacity>
         ),
         headerRightContainerStyle: { paddingRight: 16 },

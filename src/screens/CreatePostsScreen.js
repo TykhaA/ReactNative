@@ -19,6 +19,10 @@ import * as Location from "expo-location";
 import "react-native-get-random-values";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
+import { nanoid } from "nanoid";
+import { useSelector } from "react-redux";
+import { addPost, uploadImage } from "../utils/firestore";
+
 const GOOGLE_PLACES_API_KEY = "AIzaSyAlh2dhlnJoA0ge-G-3to3p_ww8nYyKT3s";
 
 const CreatePostsScreen = ({
@@ -33,8 +37,8 @@ const CreatePostsScreen = ({
   const [address, setAddress] = useState("");
   const [locationCoords, setLocationCoords] = useState(null);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-
-  const googlePlacesRef = useRef();
+  const googlePlacesRef = useRef(null);
+  const user = useSelector((state) => state.user.userInfo);
 
   useEffect(() => {
     setIsButtonDisabled(!(selectedImage && title.trim() && address.trim()));
@@ -59,7 +63,7 @@ const CreatePostsScreen = ({
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: "images",
       allowsEditing: false,
-      quality: 1,
+      quality: 0.3,
     });
 
     if (!result.canceled) {
@@ -86,10 +90,42 @@ const CreatePostsScreen = ({
     setSelectedImage(params.photo);
   }, [params]);
 
-  const createPost = () => {
-    if (!isButtonDisabled) {
+  const uploadImageToStorage = async () => {
+    try {
+      const response = await fetch(selectedImage);
+      const file = await response.blob();
+      const fileName = selectedImage.split("/").pop();
+      const fileType = file.type;
+      const imageFile = new File([file], fileName, { type: fileType });
+
+      const uploadedImageUrl = await uploadImage(user.uid, imageFile, fileName);
+
+      return uploadedImageUrl;
+    } catch (e) {
+      return null;
+    }
+  };
+
+  const createPost = async () => {
+    if (isButtonDisabled) return;
+
+    try {
+      const imageUrl = await uploadImageToStorage();
+      const postId = nanoid();
+
+      await addPost(postId, {
+        address,
+        id: postId,
+        image: imageUrl,
+        userId: user.uid,
+        title,
+        location: locationCoords,
+      });
+
       onClearData();
       navigation.navigate("Post");
+    } catch (error) {
+      console.log(error);
     }
   };
 

@@ -1,6 +1,4 @@
 import { StyleSheet, TouchableOpacity } from "react-native";
-
-import { colors } from "../../styles/global";
 import IconLogout from "../../icons/IconLogout";
 
 const LogoutButton = ({ onPress }) => {
